@@ -48,11 +48,7 @@ class Application
     public function __construct($name)
     {
         $this->container = new ContainerBuilder();
-
-        $console = $this->container->register(
-            'console', '\\Symfony\\Component\\Console\\Application'
-        );
-        $console->addArgument($name);
+        $this->loadConsole($name);
     }
 
     /**
@@ -76,6 +72,19 @@ class Application
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * Load the console, configured in the config, into our container.
+     *
+     * @param string $name
+     */
+    protected function loadConsole($name)
+    {
+        $console = $this->container->register(
+            'console', '\\Symfony\\Component\\Console\\Application'
+        );
+        $console->addArgument($name);
     }
 
     /**
