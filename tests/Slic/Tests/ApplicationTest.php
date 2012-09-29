@@ -65,4 +65,29 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->application->getCommand($commandName)->getContainer()
         );
     }
+
+    /**
+     * Register the service registration.
+     *
+     * @expectedException \InvalidArgumentException
+     */
+    public function testServiceRegistration()
+    {
+        $this->assertSame(
+            $this->application,
+            $this->application->registerService(
+                'testcommand', array(
+                    'class' => '\Slic\Tests\CommandMock',
+                    'arguments' => array(
+                        'testcommand'
+                    )
+                )
+        ));
+
+        $this->application->registerService(
+            'nonexistingclass', array(
+                'class' => '\Non\Existing\Class'
+            )
+        );
+    }
 }

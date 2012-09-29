@@ -81,10 +81,12 @@ class Application
      */
     protected function loadConsole($name)
     {
-        $console = $this->container->register(
-            'console', '\\Symfony\\Component\\Console\\Application'
-        );
-        $console->addArgument($name);
+        $this->registerService('console', array(
+            'class' => '\Symfony\Component\Console\Application',
+            'arguments' => array(
+                $name
+            )
+        ));
     }
 
     /**
@@ -97,6 +99,31 @@ class Application
     {
         $command->setContainer($this->getContainer());
         $this->container->get('console')->add($command);
+
+        return $this;
+    }
+
+    /**
+     * Register a new service.
+     *
+     * @param string $name
+     * @param array $parameters
+     */
+    public function registerService($name, array $parameters)
+    {
+        if (!isset($parameters['class']) || !class_exists($parameters['class'])) {
+            throw new \InvalidArgumentException(
+                'You must provide a class to load the service from'
+            );
+        }
+
+        $service = $this->container->register($name, $parameters['class']);
+
+        if (isset($parameters['arguments'])) {
+            foreach ((array) $parameters['arguments'] as $argument) {
+                $service->addArgument($argument);
+            }
+        }
 
         return $this;
     }
