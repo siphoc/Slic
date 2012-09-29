@@ -1,62 +1,6 @@
 {
-    "hash": "a4812c79e2a36a269438be598b4120da",
+    "hash": "62fcc69a7f014ad0adfabd0e7079ad3c",
     "packages": [
-        {
-            "name": "monolog/monolog",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/monolog",
-                "reference": "1.2.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/Seldaek/monolog/zipball/1.2.1",
-                "reference": "1.2.1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "mlehner/gelf-php": "1.0.*"
-            },
-            "suggest": {
-                "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server",
-                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-                "ext-mongo": "Allow sending log messages to a MongoDB server"
-            },
-            "time": "2012-08-29 03:53:20",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3.x-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Monolog": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Logging for PHP 5.3",
-            "homepage": "http://github.com/Seldaek/monolog",
-            "keywords": [
-                "log",
-                "logging"
-            ]
-        },
         {
             "name": "symfony/console",
             "version": "v2.1.2",
@@ -75,7 +19,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 05:48:41",
+            "time": "2012-08-22 03:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -130,7 +74,7 @@
                 "symfony/yaml": "2.1.*",
                 "symfony/config": "2.1.*"
             },
-            "time": "2012-09-17 16:41:57",
+            "time": "2012-09-17 14:41:57",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -177,7 +121,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 11:48:41",
+            "time": "2012-08-22 09:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -224,7 +168,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-09-18 22:37:29",
+            "time": "2012-09-18 20:37:29",
             "type": "library",
             "extra": {
                 "branch-alias": {
