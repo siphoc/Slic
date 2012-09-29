@@ -11,6 +11,8 @@
 
 namespace Slic;
 
+use Slic\Command\Command as SlicCommand;
+
 use Symfony\Component\Console;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -54,10 +56,39 @@ class Application
     }
 
     /**
+     * Fetch a specific command.
+     *
+     * @param string $name
+     * @return Slic\Command\Command
+     */
+    public function getCommand($name)
+    {
+        $console = $this->container->get('console');
+
+        if ($console->has($name)) return $console->get($name);
+        // @todo throw exception
+        else return false;
+    }
+
+    /**
      * @return Symfony\Component\DependencyInjection\ContainerBuilder
      */
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * Register a command that we'll be able to use.
+     *
+     * @param Sic\Command\Command $command
+     * @return Slic\Application
+     */
+    public function registerCommand(SlicCommand $command)
+    {
+        $command->setContainer($this->getContainer());
+        $this->container->get('console')->add($command);
+
+        return $this;
     }
 }
