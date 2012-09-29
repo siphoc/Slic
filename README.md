@@ -12,6 +12,17 @@ Slic is a micro framework build to help you execute actions on the command line.
 
     git clone git@github.com:siphoc/Slic.git && cd Slic && composer.phar install
 
+### Install into existing project
+
+To install Slic into an existing application, you can add it to your composer.json.
+
+    "require":{
+        "php": ">=5.3.2",
+        "siphoc/slic": "dev-master"
+    },
+
+Run `composer.phar update` to install Slic and it's dependencies.
+
 ## Usage
 
 This is a demo example:
