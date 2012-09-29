@@ -57,6 +57,7 @@ class Compiler
             ->exclude('Tests')
             ->in($root.'/src')
             ->in($root.'/vendor/symfony/console/Symfony/Component/Console')
+            ->in($root.'/vendor/symfony/dependency-injection/Symfony/Component/DependencyInjection')
         ;
 
         foreach ($finder as $file) {
