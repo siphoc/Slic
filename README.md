@@ -16,6 +16,7 @@ Slic is a micro framework build to help you execute actions on the command line.
 
 This is a demo example:
 
+    ```php
     <?php
 
     require_once __DIR__ . '/slic.phar';
@@ -57,6 +58,7 @@ This is a demo example:
     $app = new \Slic\Application('slic');
     $app->registerCommand(new MockCommand('slic:mock'));
     $app->run();
+    ```
 
 Here we'll create a command mock (you can create as much commands as you want.)
 and configure it's description and arguments/options/actions.
