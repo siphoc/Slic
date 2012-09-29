@@ -11,7 +11,8 @@
 
 namespace Slic;
 
-use \Symfony\Component\Console;
+use Symfony\Component\Console;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * The Slic Application. This will handle registering several commands and
@@ -19,7 +20,7 @@ use \Symfony\Component\Console;
  *
  * @author Jelmer Snoeck <jelmer.snoeck@siphoc.com>
  */
-class Application extends \Pimple
+class Application
 {
     /**
      * The versionnumber of the Slic Micro Framework.
@@ -27,6 +28,13 @@ class Application extends \Pimple
      * @var string
      */
     const VERSION = '1.0.0';
+
+    /**
+     * The container which we'll use to pass to our commands.
+     *
+     * @var Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    private $container;
 
     /**
      * Register the Console and other necessary components.
@@ -37,8 +45,19 @@ class Application extends \Pimple
      */
     public function __construct($name)
     {
-        $this['console'] = $this->share(function() use($name) {
-            return new Console\Application($name);
-        });
+        $this->container = new ContainerBuilder();
+
+        $console = $this->container->register(
+            'console', '\\Symfony\\Component\\Console\\Application'
+        );
+        $console->addArgument($name);
+    }
+
+    /**
+     * @return Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    public function getContainer()
+    {
+        return $this->container;
     }
 }
