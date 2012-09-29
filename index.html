@@ -1,66 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Slic by siphoc</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Slic : Command Line Interface Micro Framework based on Symfony2 Components." />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Slic</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/siphoc/Slic">View on GitHub</a>
+
+          <h1 id="project_title">Slic</h1>
+          <h2 id="project_tagline">Command Line Interface Micro Framework based on Symfony2 Components.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/siphoc/Slic/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/siphoc/Slic/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>Slic</h1>
-        <p>Command Line Interface Micro Framework based on Symfony2 Components.</p>
 
-        <p class="view"><a href="https://github.com/siphoc/Slic">View the Project on GitHub <small>siphoc/Slic</small></a></p>
+<p>Slic is a micro framework build to help you execute actions on the command line.</p>
 
+<h2>Installation</h2>
 
-        <ul>
-          <li><a href="https://github.com/siphoc/Slic/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/siphoc/Slic/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/siphoc/Slic">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>Welcome to GitHub Pages.</h3>
+<ul>
+<li>Install <a href="http://getcomposer.org/">Composer</a>
+</li>
+<li>Run composer.phar install</li>
+<li>Optional: run ./compile (This'll allow you to use a .phar package)</li>
+</ul><h3>Already have composer installed?</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p><code>git clone git@github.com:siphoc/Slic.git &amp;&amp; composer.phar install</code></p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<h2>Usage</h2>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>This is a demo example:</p>
 
-<h3>Designer Templates</h3>
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/slic.phar'</span><span class="p">;</span>
 
-<h3>Rather Drive Stick?</h3>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Input\InputArgument</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Input\InputInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Output\OutputInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Input\InputOption</span><span class="p">;</span>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<span class="k">class</span> <span class="nc">MockCommand</span> <span class="k">extends</span> <span class="nx">\Slic\Command\Command</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">'Test command'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span>
+                <span class="s1">'name'</span><span class="p">,</span> <span class="nx">InputArgument</span><span class="o">::</span><span class="na">REQUIRED</span><span class="p">,</span> <span class="s1">'What\'s your name?'</span>
+            <span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">addOption</span><span class="p">(</span>
+                <span class="s1">'uppercase'</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span>
+                <span class="nx">InputOption</span><span class="o">::</span><span class="na">VALUE_NONE</span><span class="p">,</span> <span class="s1">'Show in uppercase?'</span>
+            <span class="p">)</span>
+        <span class="p">;</span>
+    <span class="p">}</span>
 
-<h3>Authors and Contributors</h3>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$outputText</span> <span class="o">=</span> <span class="s1">'Hello, '</span><span class="p">;</span>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+        <span class="nv">$outputText</span> <span class="o">.=</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getArgument</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
 
-<h3>Support or Contact</h3>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">'uppercase'</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$outputText</span> <span class="o">=</span> <span class="nx">strtoupper</span><span class="p">(</span><span class="nv">$outputText</span><span class="p">);</span>
+        <span class="p">}</span>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="nv">$outputText</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Slic\Application</span><span class="p">(</span><span class="s1">'slic'</span><span class="p">);</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">registerCommand</span><span class="p">(</span><span class="k">new</span> <span class="nx">MockCommand</span><span class="p">(</span><span class="s1">'slic:mock'</span><span class="p">));</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+</pre></div>
+
+<p>Here we'll create a command mock (you can create as much commands as you want.)
+and configure it's description and arguments/options/actions.</p>
+
+<p>Then you only need to register these commands so that they'll be available
+trough your script.</p>
+
+<h2>Todo</h2>
+
+<ul>
+<li>Services via config</li>
+<li>Extra default services
+
+<ul>
+<li>Doctrine</li>
+<li>Monolog</li>
+</ul>
+</li>
+<li>Commands via config</li>
+</ul>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/siphoc">siphoc</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Slic maintained by <a href="https://github.com/siphoc">siphoc</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -71,6 +133,7 @@ $ git checkout gh-pages
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
