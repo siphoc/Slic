@@ -1,5 +1,5 @@
 {
-    "name": "Siphoc/Slic",
+    "name": "siphoc/slic",
     "description": "Command Line Interface Micro Framework based on Symfony2 Components",
     "keywords": ["microframework","cli","symfony"],
     "homepage": "http://siphoc.github.com/slic",
