@@ -116,6 +116,7 @@ class Application
      *
      * @param string $name
      * @param array $parameters
+     * @return Slic\Application
      */
     public function registerService($name, array $parameters)
     {
