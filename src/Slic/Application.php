@@ -91,4 +91,20 @@ class Application
 
         return $this;
     }
+
+    /**
+     * Execute the Slic Application.
+     *
+     * @param bool $interactive Run this application interactively or not?
+     */
+    public function run($interactive = false)
+    {
+        $app = $this->container->get('console');
+
+        if ($interactive) {
+            $app = new Console\Shell($app);
+        }
+
+        $app->run();
+    }
 }
