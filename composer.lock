@@ -1,5 +1,5 @@
 {
-    "hash": "306f278d7f4823d3ffb7ae5dbb14e624",
+    "hash": "a4812c79e2a36a269438be598b4120da",
     "packages": [
         {
             "name": "monolog/monolog",
@@ -26,7 +26,7 @@
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server"
             },
-            "time": "2012-08-29 05:53:20",
+            "time": "2012-08-29 03:53:20",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -75,7 +75,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 07:48:41",
+            "time": "2012-08-22 05:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -130,7 +130,7 @@
                 "symfony/yaml": "2.1.*",
                 "symfony/config": "2.1.*"
             },
-            "time": "2012-09-17 18:41:57",
+            "time": "2012-09-17 16:41:57",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -177,7 +177,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2012-08-22 13:48:41",
+            "time": "2012-08-22 11:48:41",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -204,6 +204,53 @@
                 }
             ],
             "description": "Symfony Finder Component",
+            "homepage": "http://symfony.com"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v2.1.2",
+            "target-dir": "Symfony/Component/Process",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Process",
+                "reference": "v2.1.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/Process/zipball/v2.1.2",
+                "reference": "v2.1.2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "time": "2012-09-18 22:37:29",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Process": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
             "homepage": "http://symfony.com"
         }
     ],
