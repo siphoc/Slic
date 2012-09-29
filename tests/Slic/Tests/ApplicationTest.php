@@ -14,6 +14,8 @@ namespace Slic\Tests;
 use Slic\Application;
 use Slic\Command\Command as SlicCommand;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 class CommandMock extends SlicCommand {}
 
 /**
@@ -37,6 +39,26 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testConsturctor()
     {
+        $this->assertInstanceOf(
+            '\\Symfony\\Component\\Console\\Application',
+            $this->application->getContainer()->get('console')
+        );
+    }
+
+    /**
+     * Test a custom container.
+     */
+    public function testContainer()
+    {
+        $customContainer = new ContainerBuilder();
+
+        $this->assertFalse($customContainer->has('console'));
+
+        $this->assertSame(
+            $this->application,
+            $this->application->setContainer($customContainer)
+        );
+
         $this->assertInstanceOf(
             '\\Symfony\\Component\\Console\\Application',
             $this->application->getContainer()->get('console')

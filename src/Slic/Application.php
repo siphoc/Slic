@@ -15,6 +15,7 @@ use Slic\Command\Command as SlicCommand;
 
 use Symfony\Component\Console;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The Slic Application. This will handle registering several commands and
@@ -32,6 +33,13 @@ class Application
     const VERSION = '1.0.0';
 
     /**
+     * The application name.
+     *
+     * @var string
+     */
+    private $applicationName;
+
+    /**
      * The container which we'll use to pass to our commands.
      *
      * @var Symfony\Component\DependencyInjection\ContainerBuilder
@@ -47,8 +55,10 @@ class Application
      */
     public function __construct($name)
     {
+        $this->applicationName = (string) $name;
         $this->container = new ContainerBuilder();
-        $this->loadConsole($name);
+
+        $this->loadConsole();
     }
 
     /**
@@ -76,15 +86,13 @@ class Application
 
     /**
      * Load the console, configured in the config, into our container.
-     *
-     * @param string $name
      */
-    protected function loadConsole($name)
+    protected function loadConsole()
     {
         $this->registerService('console', array(
             'class' => '\Symfony\Component\Console\Application',
             'arguments' => array(
-                $name
+                $this->applicationName
             )
         ));
     }
@@ -142,5 +150,23 @@ class Application
         }
 
         $app->run();
+    }
+
+    /**
+     * Set a custom container. Always validate if our console is set, we'll
+     * use this in many other parts of the framework.
+     *
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @return Slic\Application
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        if (!$this->container->has('console')) {
+            $this->loadConsole();
+        }
+
+        return $this;
     }
 }
