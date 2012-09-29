@@ -10,7 +10,7 @@ Slic is a micro framework build to help you execute actions on the command line.
 
 ### Already have composer installed?
 
-    `git clone git@github.com:siphoc/Slic.git && cd Slic && composer.phar install`
+    git clone git@github.com:siphoc/Slic.git && cd Slic && composer.phar install
 
 ## Usage
 
