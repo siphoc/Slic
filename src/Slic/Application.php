@@ -16,6 +16,12 @@ use Slic\Command\Command as SlicCommand;
 use Symfony\Component\Console;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 
 /**
  * The Slic Application. This will handle registering several commands and
@@ -33,11 +39,9 @@ class Application
     const VERSION = '1.0.0';
 
     /**
-     * The application name.
-     *
      * @var string
      */
-    private $applicationName;
+    private $applicationName, $configFile;
 
     /**
      * The container which we'll use to pass to our commands.
@@ -49,16 +53,15 @@ class Application
     /**
      * Register the Console and other necessary components.
      *
-     * @todo read out config file.
-     *
      * @param string $name
+     * @param string[optional] $configFile
      */
-    public function __construct($name)
+    public function __construct($name, $configFile = null)
     {
         $this->applicationName = (string) $name;
-        $this->container = new ContainerBuilder();
+        $this->configFile = (string) $configFile;
 
-        $this->loadConsole();
+        $this->loadContainer();
     }
 
     /**
@@ -85,16 +88,63 @@ class Application
     }
 
     /**
+     * @param ContainerInterface
+     * @return Symfony\Component\Config\Loader\DelegatingLoader
+     */
+    protected function getContainerLoader(ContainerInterface $container)
+    {
+        $fileLocator = new FileLocator($this);
+        $resolver = new LoaderResolver(array(
+            new XmlFileLoader($container, $fileLocator),
+            new YamlFileLoader($container, $fileLocator),
+            new IniFileLoader($container, $fileLocator),
+        ));
+
+        return new DelegatingLoader($resolver);
+    }
+
+    public function loadConfig($configFile)
+    {
+        if (!file_exists($configFile)) {
+            throw new \InvalidArgumentException(
+                'The config file does not exist.'
+            );
+        }
+
+        $this->getContainerLoader($this->container)->load($configFile);
+    }
+
+    /**
      * Load the console, configured in the config, into our container.
      */
     protected function loadConsole()
     {
-        $this->registerService('console', array(
-            'class' => '\Symfony\Component\Console\Application',
-            'arguments' => array(
-                $this->applicationName
-            )
-        ));
+        if (!$this->container->has('console')) {
+            $this->registerService('console', array(
+                'class' => '\Symfony\Component\Console\Application',
+                'arguments' => array(
+                    $this->applicationName
+                )
+            ));
+        }
+    }
+
+    /**
+     * Load the container from a specified file.
+     */
+    protected function loadContainer()
+    {
+        $this->container = new ContainerBuilder();
+
+        // we have a base config that we need. If no config is given, load
+        // this configuration file.
+        $configFile = __DIR__ . '/Resources/config/config.yml';
+        if ($this->configFile !== '') {
+            $configFile = $this->configFile;
+        }
+
+        $this->loadConfig($configFile);
+        $this->loadConsole();
     }
 
     /**
@@ -163,10 +213,7 @@ class Application
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
-
-        if (!$this->container->has('console')) {
-            $this->loadConsole();
-        }
+        $this->loadConsole();
 
         return $this;
     }

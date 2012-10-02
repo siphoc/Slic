@@ -112,4 +112,28 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConfigLoader()
+    {
+        $this->assertEquals(
+            'Slic',
+            $this->application->getContainer()->get('console')->getName()
+        );
+
+        /*
+         * The testconfig contains a console service with the name test-config.
+         * We'll use this to validate if the config is actually used.
+         */
+        $testConfig = __DIR__ . '/../../data/config.yml';
+        $newApplication = new Application('Slic', $testConfig);
+        $this->assertEquals(
+            'test-config',
+            $newApplication->getContainer()->get('console')->getName()
+        );
+
+        $this->application->loadConfig(__DIR__ . '/non-existing-file.yml');
+    }
 }
