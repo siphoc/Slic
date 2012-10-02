@@ -2,6 +2,8 @@
 
 Slic is a micro framework build to help you execute actions on the command line.
 
+[![Build Status](https://secure.travis-ci.org/siphoc/Slic.png)](http://travis-ci.org/siphoc/Slic)
+
 ## Installation
 
 * Install [Composer](http://getcomposer.org/)
