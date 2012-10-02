@@ -81,7 +81,6 @@ trough your script.
 
 ## Todo
 
-* Services via config
 * Extra default services
     * Doctrine
     * Monolog
