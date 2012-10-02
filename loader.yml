@@ -1,4 +1,0 @@
-services:
-    console:
-        class: \Symfony\Component\Console\Application
-        arguments: ['foo']

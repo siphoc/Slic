@@ -39,11 +39,9 @@ class Application
     const VERSION = '1.0.0';
 
     /**
-     * The application name.
-     *
      * @var string
      */
-    private $applicationName;
+    private $applicationName, $configFile;
 
     /**
      * The container which we'll use to pass to our commands.
@@ -55,16 +53,15 @@ class Application
     /**
      * Register the Console and other necessary components.
      *
-     * @todo read out config file.
-     *
      * @param string $name
+     * @param string[optional] $configFile
      */
-    public function __construct($name)
+    public function __construct($name, $configFile = null)
     {
         $this->applicationName = (string) $name;
-        $this->loadContainer();
+        $this->configFile = (string) $configFile;
 
-        // $this->loadConsole();
+        $this->loadContainer();
     }
 
     /**
@@ -106,17 +103,30 @@ class Application
         return new DelegatingLoader($resolver);
     }
 
+    public function loadConfig($configFile)
+    {
+        if (!file_exists($configFile)) {
+            throw new \InvalidArgumentException(
+                'The config file does not exist.'
+            );
+        }
+
+        $this->getContainerLoader($this->container)->load($configFile);
+    }
+
     /**
      * Load the console, configured in the config, into our container.
      */
     protected function loadConsole()
     {
-        $this->registerService('console', array(
-            'class' => '\Symfony\Component\Console\Application',
-            'arguments' => array(
-                $this->applicationName
-            )
-        ));
+        if (!$this->container->has('console')) {
+            $this->registerService('console', array(
+                'class' => '\Symfony\Component\Console\Application',
+                'arguments' => array(
+                    $this->applicationName
+                )
+            ));
+        }
     }
 
     /**
@@ -126,10 +136,15 @@ class Application
     {
         $this->container = new ContainerBuilder();
 
-        $this->container->merge(
-            $this->getContainerLoader($this->container)
-                ->load(__DIR__ . '/../../loader.yml')
-        );
+        // we have a base config that we need. If no config is given, load
+        // this configuration file.
+        $configFile = __DIR__ . '/Resources/config/config.yml';
+        if ($this->configFile !== '') {
+            $configFile = $this->configFile;
+        }
+
+        $this->loadConfig($configFile);
+        $this->loadConsole();
     }
 
     /**
@@ -198,10 +213,7 @@ class Application
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
-
-        if (!$this->container->has('console')) {
-            // $this->loadConsole();
-        }
+        $this->loadConsole();
 
         return $this;
     }
