@@ -16,6 +16,12 @@ use Slic\Command\Command as SlicCommand;
 use Symfony\Component\Console;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 
 /**
  * The Slic Application. This will handle registering several commands and
@@ -56,9 +62,9 @@ class Application
     public function __construct($name)
     {
         $this->applicationName = (string) $name;
-        $this->container = new ContainerBuilder();
+        $this->loadContainer();
 
-        $this->loadConsole();
+        // $this->loadConsole();
     }
 
     /**
@@ -85,6 +91,22 @@ class Application
     }
 
     /**
+     * @param ContainerInterface
+     * @return Symfony\Component\Config\Loader\DelegatingLoader
+     */
+    protected function getContainerLoader(ContainerInterface $container)
+    {
+        $fileLocator = new FileLocator($this);
+        $resolver = new LoaderResolver(array(
+            new XmlFileLoader($container, $fileLocator),
+            new YamlFileLoader($container, $fileLocator),
+            new IniFileLoader($container, $fileLocator),
+        ));
+
+        return new DelegatingLoader($resolver);
+    }
+
+    /**
      * Load the console, configured in the config, into our container.
      */
     protected function loadConsole()
@@ -95,6 +117,19 @@ class Application
                 $this->applicationName
             )
         ));
+    }
+
+    /**
+     * Load the container from a specified file.
+     */
+    protected function loadContainer()
+    {
+        $this->container = new ContainerBuilder();
+
+        $this->container->merge(
+            $this->getContainerLoader($this->container)
+                ->load(__DIR__ . '/../../loader.yml')
+        );
     }
 
     /**
@@ -165,7 +200,7 @@ class Application
         $this->container = $container;
 
         if (!$this->container->has('console')) {
-            $this->loadConsole();
+            // $this->loadConsole();
         }
 
         return $this;
