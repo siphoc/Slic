@@ -162,6 +162,21 @@ class Application
     }
 
     /**
+     * Register multiple commands at once.
+     *
+     * @param array $commands
+     * @return Slic\Application
+     */
+    public function registerCommands(array $commands)
+    {
+        foreach ($commands as $command) {
+            $this->registerCommand($command);
+        }
+
+        return $this;
+    }
+
+    /**
      * Register a new service.
      *
      * @param string $name
