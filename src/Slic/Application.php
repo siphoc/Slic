@@ -14,8 +14,6 @@ namespace Slic;
 use Slic\Command\Command as SlicCommand;
 
 use Symfony\Component\Console;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -158,11 +156,6 @@ class Application
     public function registerCommand(SlicCommand $command)
     {
         $command->setContainer($this->getContainer());
-
-        $helperSet = new HelperSet();
-        $helperSet->set(new FormatterHelper(), 'formatter');
-        $command->setHelperSet($helperSet);
-
         $this->container->get('console')->add($command);
 
         return $this;
